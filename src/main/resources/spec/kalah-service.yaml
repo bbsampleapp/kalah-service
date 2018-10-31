@@ -1,0 +1,137 @@
+---
+swagger: '2.0'
+info:
+  description: Kalah Service API
+  version: 0.0.1
+  title:  Kalah Service API
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /games:
+    post:
+      summary: Starts a new game of Kalah
+      description: Starts a new game of Kalah
+      operationId: startGame
+      responses:
+        201:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/GameStarted'
+        400:
+          description: Bad request
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        404:
+          description: Resource not found
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+  /games/{game_id}/pits/{pit_id}:
+    put:
+      summary: Make a move
+      description: Use this endpoint to make a move in the game
+      operationId: makeMove
+      parameters:
+      - in: path
+        name: game_id
+        description: Identifier of the game that is running
+        required: true
+        type: string
+      - in: path
+        name: pit_id
+        description: Identifier of the pit to start game from
+        required: true
+        type: string
+      responses:
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/MoveResult'
+        400:
+          description: Bad request
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+        404:
+          description: Resource not found
+          schema:
+            $ref: "#/definitions/ErrorMessage"
+        500:
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/ErrorMessage'
+definitions:
+  GameStarted:
+    description: Contains information about the players move and the state of the board.
+    required:
+    - id
+    - url
+    properties:
+      id:
+        type: string
+        description: The game ID
+        example: 1234
+      url:
+        type: string
+        description: Url of the game
+        example: http://localhost:8080/games/1234
+  MoveResult:
+    description: Contains information about the players move and the state of the board.
+    required:
+    - id
+    - url
+    - status
+    properties:
+      id:
+        type: string
+        description: The game ID
+        example: 1234
+      url:
+        type: string
+        description: Url of the game
+        example: http://localhost:8080/games/1234
+      status:
+        type: array
+        items:
+          $ref: '#/definitions/GameStatus'
+        description: The current state of the game
+        example: TBD
+  GameStatus:
+    description: contains all the information about the state of the game
+    required:
+    - state
+    properties:
+      state:
+        type: string
+        description: "The current state of pits"
+        example: 2, 3, 4, 5, 6, 0, 4, 2, 4, 3, 5, 7, 0
+  ErrorMessage:
+    description: Error message returned to the REST Api clients
+    required:
+    - error
+    properties:
+      error:
+        type: string
+        minLength: 1
+        description: Some text providing details about the error that occurred
+        example: System Error

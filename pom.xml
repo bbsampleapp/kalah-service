@@ -6,7 +6,7 @@
 	<groupId>io.filer</groupId>
 	<artifactId>kalah-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>kalah-service</name>
 	<description>Demo project</description>

@@ -41,6 +41,27 @@ The diagrams below shows the intended flow within the application
 
 ![Make Move](/images/Make_move_sequence.PNG)
 
+## Executing Service
+
+### Local
+
+1. mvn spring-boot:run
+2. Start Game - curl -X POST -H "Content-Type:application/json" http://localhost:8080/games
+3. Make Move - curl -X PUT -H "Content-Type:application/json" http://localhost:8080/games/1234/pits/1234
+
+### CF environment
+
+#### Pipeline delivery
+
+1. Push change to repository.  Deployment is automatic.
+2. Start Game -  curl -X POST -H "Content-Type:application/json" https://kalah-service.mybluemix.net/games
+3. Make Move - curl -X PUT -H "Content-Type:application/json" https://kalah-service.mybluemix.net/games/1234/pits/1234
+
+#### CF CLI
+
+1. cf login -a https://api.ng.bluemix.net -u username -o organisation -s space
+2. cf push application from root of kalah-service.  Please ensure mvn clean install has been executed first
+
 ## Task board
 
 The current tasks in progress and tasks for future work live here https://trello.com/b/0PdeVtSD/kalah-board

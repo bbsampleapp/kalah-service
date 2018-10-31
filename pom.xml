@@ -70,6 +70,28 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-manifest-and-sonar</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<outputDirectory>${basedir}/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/cloudfoundry</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 			</plugin>

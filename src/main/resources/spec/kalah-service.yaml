@@ -39,19 +39,19 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/ErrorMessage'
-  /games/{game_id}/pits/{pit_id}:
+  /games/{gameid}/pits/{pitid}:
     put:
       summary: Make a move
       description: Use this endpoint to make a move in the game
       operationId: makeMove
       parameters:
       - in: path
-        name: game_id
+        name: gameid
         description: Identifier of the game that is running
         required: true
         type: string
       - in: path
-        name: pit_id
+        name: pitid
         description: Identifier of the pit to start game from
         required: true
         type: string
@@ -110,17 +110,6 @@ definitions:
         type: string
         description: Url of the game
         example: http://localhost:8080/games/1234
-      status:
-        type: array
-        items:
-          $ref: '#/definitions/GameStatus'
-        description: The current state of the game
-        example: TBD
-  GameStatus:
-    description: contains all the information about the state of the game
-    required:
-    - state
-    properties:
       state:
         type: string
         description: "The current state of pits"

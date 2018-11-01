@@ -10,4 +10,5 @@ applications:
     JBP_CONFIG_IBMJDK: 'version: 1.8.+'
     LOGBACK_LOG_LEVEL: DEBUG
     SPRING_PROFILES_ACTIVE: cloud
+    KALAH_BASE_URL: https://kalah-service.mybluemix.net
   timeout: 120

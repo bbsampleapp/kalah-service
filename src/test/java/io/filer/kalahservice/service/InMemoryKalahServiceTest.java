@@ -2,6 +2,7 @@ package io.filer.kalahservice.service;
 
 import io.filer.kalah.service.model.GameStarted;
 import io.filer.kalah.service.model.MoveResult;
+import io.filer.kalahservice.model.DataHolder;
 import io.filer.kalahservice.service.impl.InMemoryKalahService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ public class InMemoryKalahServiceTest {
 
         @Bean
         public  InMemoryKalahService inMemoryKalahServiceService() {
-            return new InMemoryKalahService();
+            return new InMemoryKalahService(new DataHolder());
         }
     }
 

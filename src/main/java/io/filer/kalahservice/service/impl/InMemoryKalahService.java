@@ -2,14 +2,14 @@ package io.filer.kalahservice.service.impl;
 
 import io.filer.kalah.service.model.GameStarted;
 import io.filer.kalah.service.model.MoveResult;
+import io.filer.kalahservice.model.DataHolder;
 import io.filer.kalahservice.model.KalahBoard;
 import io.filer.kalahservice.model.Pits;
 import io.filer.kalahservice.service.KalahService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,21 +18,19 @@ import java.util.stream.Collectors;
 @Component
 public class InMemoryKalahService implements KalahService {
 
-    //TODO move this state into NoSQL document store
-    private static ThreadLocal<Map<String, KalahBoard>> kalahBoardGamesThreadLocal = new ThreadLocal<>();
+    private final DataHolder dataHolder;
 
     @Value("${kalah.base.uri}")
     private String baseUri;
 
+    @Autowired
+    public InMemoryKalahService (DataHolder dataHolder) {
+        this.dataHolder = dataHolder;
+    }
+
     @Override
     public GameStarted startGame() {
-        Map<String, KalahBoard> games = null;
-        if(kalahBoardGamesThreadLocal.get() == null) {
-            kalahBoardGamesThreadLocal.set(Collections.synchronizedMap(new HashMap<String, KalahBoard>()));
-            games = kalahBoardGamesThreadLocal.get();
-        } else {
-            games = kalahBoardGamesThreadLocal.get();
-        }
+        Map<String, KalahBoard> games = dataHolder.getGameData();
 
         String gameId = UUID.randomUUID().toString();
         games.put(gameId, new KalahBoard());
@@ -45,25 +43,18 @@ public class InMemoryKalahService implements KalahService {
 
     @Override
     public MoveResult makeMove(String gameId, String pitId) {
-        Map<String, KalahBoard> games = null;
-        if(kalahBoardGamesThreadLocal.get() == null) {
-            //TODO map to proper error
-            throw new RuntimeException("Cannot find any games");
-        } else {
-            games = kalahBoardGamesThreadLocal.get();
-        }
 
         KalahBoard kalahBoard = null;
-         if (games.get(gameId) == null) {
+         if (dataHolder.getGameData().get(gameId) == null) {
              throw new RuntimeException("Cannot find game for gameid " + gameId);
          } else {
-             kalahBoard = games.get(gameId);
+             kalahBoard = dataHolder.getGameData().get(gameId);
          }
 
         doMove(kalahBoard.getPits(), Integer.valueOf(pitId), 0);
 
         //Overwrite state
-        games.put(gameId, new KalahBoard(kalahBoard.getPits()));
+        dataHolder.setGameData(gameId, new KalahBoard(kalahBoard.getPits()));
 
         String state = kalahBoard.getPits()
                 .stream()

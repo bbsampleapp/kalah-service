@@ -34,13 +34,18 @@ public class InMemoryKalahServiceTest {
         GameStarted gameStarted = kalahService.startGame();
         assertThat(gameStarted.getId(), is(notNullValue()));
         assertThat(gameStarted.getUrl(), is(notNullValue()));
+
+        //TODO sort out the actual values to assert
     }
 
     @Test
     public void ensurMakeMoveReturnsResult_success() {
-        MoveResult moveResult = kalahService.makeMove("1234", "4");
+        GameStarted gameStarted = kalahService.startGame();
+        MoveResult moveResult = kalahService.makeMove(gameStarted.getId(), "4");
         assertThat(moveResult.getId(), is(notNullValue()));
         assertThat(moveResult.getUrl(), is(notNullValue()));
         assertThat(moveResult.getState(), is(notNullValue()));
+
+        //TODO sort out the actual values to assert
     }
 }

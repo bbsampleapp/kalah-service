@@ -43,6 +43,11 @@ The diagrams below shows the intended flow within the application
 
 ## Executing Service
 
+### Pre requisites
+
+Maven - https://maven.apache.org/download.cgi - Please use latest 3.6.0
+Java - Minimum OpenJdk (build 1.8.0_181-8u181
+
 ### Local
 
 1. mvn spring-boot:run
@@ -68,4 +73,4 @@ The current tasks in progress and tasks for future work live here https://trello
 
 # Guide for Integrators
 
-TBC - need to link to generated swagger docs
+To view the API please use naviagate to https://kalah-service.mybluemix.net/swagger-ui.html (http://localhost:8080/swagger-ui.html for local environment)

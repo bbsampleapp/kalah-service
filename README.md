@@ -52,7 +52,9 @@ Java - Minimum OpenJdk (build 1.8.0_181-8u181
 
 1. mvn spring-boot:run
 2. Start Game - curl -X POST -H "Content-Type:application/json" http://localhost:8080/games
-3. Make Move - curl -X PUT -H "Content-Type:application/json" http://localhost:8080/games/1234/pits/1234
+3. Make Move - curl -X PUT -H "Content-Type:application/json" http://localhost:8080/games/{gameid}/pits/{pitid}
+
+Note: Game Id is returned from the call to '/games' and pitid is a value between 0 and 13.
 
 ### CF environment
 
@@ -61,9 +63,21 @@ Java - Minimum OpenJdk (build 1.8.0_181-8u181
 To deploy the application there is a delivery pipeline defined at https://app.codeship.com/bbsampleapp.  Service tests are 
 executed using https://assertible.com/dashboard#/services/6503b7d4-41ea-4921-bb75-c9bb369ad6ea and https://github.com/bbsampleapp/kalah-test.
 
+#### Direct service route calls (Reduced availability)
+
 1. Push change to repository.  Deployment is automatic.
 2. Start Game -  curl -X POST -H "Content-Type:application/json" https://kalah-service.mybluemix.net/games
-3. Make Move - curl -X PUT -H "Content-Type:application/json" https://kalah-service.mybluemix.net/games/1234/pits/1234
+3. Make Move - curl -X PUT -H "Content-Type:application/json" https://kalah-service.mybluemix.net/games/{gameid}/pits/{pitid}
+
+Note: Game Id is returned from the call to '/games' and pitid is a value between 0 and 13.
+
+#### Service calls routed through gateway-zuul from Internet
+
+1. Push change to repository.  Deployment is automatic.
+2. Start Game -  curl -X POST -H "Content-Type:application/json" https://gateway-zuul.mybluemix.net/kalah/v1/games
+3. Make Move - curl -X PUT -H "Content-Type:application/json" https://gateway-zuul.mybluemix.net/games/{gameid}/pits/{pitid}
+
+Note: Game Id is returned from the call to '/games' and pitid is a value between 0 and 13.
 
 #### CF CLI
 

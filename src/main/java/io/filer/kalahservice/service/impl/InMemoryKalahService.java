@@ -69,7 +69,7 @@ public class InMemoryKalahService implements KalahService {
     }
 
     private void doMove(List<Pits> pits, int choosenStartPit, int stonesUsed) {
-        //TODO improve this algorithm.  Seems to work, however the indexes seem to be out by one :(
+        //TODO improve this algorithm.  Also not all rules have been implemented.
         Pits startingHome = pits.get(choosenStartPit);
 
         if(startingHome.getStones() > 0){
